@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Елка - елочка</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!-- <link rel="stylesheet" href="assets/css/main.css" /> -->
+
+		<meta charset="utf-8">
+    	<link rel="stylesheet" type="text/css" href="assets/css/tree.css">
+
+
+    <script src="assets/js/jquery-1.12.4.js"></script>
+    <script src="assets/js/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+        $('.tree').draggable({containment: "parent"});
+      });
+    </script>
+       <script>
+       	var randomNum = Math.floor(Math.random()*30);
+
+
+      $(document).ready(function(){
+
+        $(document).mousemove(function(event){
+      		var x = event.pageX;
+      		var y = event.pageY;
+      		console.log( 'Координаты курсора: (' + x + '; ' + y + ')' );
+      	});
+
+
+
+        $(".buttonclone").click(function(a){
+
+          $(a.currentTarget).find('img').clone().addClass('ready-to-drop new-ball').appendTo("#area").draggable({containment: "parent"}).css({'position': 'absolute',
+                  "top": Math.floor(Math.random()*300),
+                  "left": Math.floor(Math.random()*600)});
+          $('#tree').droppable({
+            drop: function(a) {
+                if (!$(a.toElement).hasClass('ready-to-drop')) {
+                  return;
+                }
+                console.warn(a);
+                $(a.toElement)
+                .appendTo('#tree')
+                .removeClass('ready-to-drop')
+                .addClass('tree-toy')
+                .draggable({containment: "parent"})
+                .css({
+                  'position': 'absolute',
+                  "top": (a.originalEvent.clientY - a.target.offsetTop) - a.toElement.clientHeight / 2,
+                  "left": (a.originalEvent.clientX - a.target.offsetLeft) - a.toElement.clientWidth / 2
+
+                });
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function(){
+        $(".container-my-name").click(function(b){
+          const toys = $('.ready-to-drop');
+          // console.warn(toys.length, toys);
+          var arrayToys = [];
+          arrayToys.push(toys);
+
+          console.log('arrayToys = ', arrayToys);
+
+          var arrayCoord = [[266,528],[228,547],[201,561],[174,580],[141,591],[114,612],[138,635],[170,653],[195,669],[198,668],[227,682],[178,617],
+			//л
+			[228,718],[197,731],[166,753],[194,777], [228,786],
+			// и
+			[168,822],[198,822],[228,822],[217,850],[168,877],[198,877],[228,877],
+			// н
+			[168,923],[198,923],[228,923],[196,955],[168,990],[198,990],[228,990],
+			// а
+			[228,1027],[198,1041],[168,1062],[198,1090],[228,1100],[198,1066]
+          ];
+
+          console.warn('arrayToys[0].length = ', arrayToys[0].length);
+
+          let i = 0;
+          while(i != arrayToys[0].length) {
+            $(arrayToys[0][i+1]).css({
+              'position': 'absolute',
+              "top": arrayCoord[i+1][0],
+              "left": arrayCoord[i+1][1]
+            });
+            i++;
+          }
+          // for(let i = 0; i < arrayToys[0].length + 1; i++) {
+          //   $(arrayToys[0][i+1]).css({
+          //     'position': 'absolute',
+          //     "top": arrayCoord[i+1][0],
+          //     "left": arrayCoord[i+1][1]
+          //   });
+          // }
+
+        });
+      });
+    </script>
+
+	</head>
+	<body>
+
+	<div class="ball-conteiner">
+
+      <div class="buttonclone container-ball-plus">
+        <img class="ball-img" src="images/1.png" alt="Photo">
+        <span class="text-plus">+</span>
+      </div>
+      <div class="buttonclone container-ball-plus">
+        <img class="ball-img" src="images/2.png" alt="Photo">
+        <span class="text-plus" >+</span>
+      </div>
+      <div class="buttonclone container-ball-plus">
+        <img class="ball-img" src="images/3.png" alt="Photo">
+        <span class="text-plus">+</span>
+      </div>
+      <div class="buttonclone container-ball-plus">
+        <img class="ball-img" src="images/4.png" alt="Photo">
+        <span class="text-plus">+</span>
+      </div>
+
+    </div>
+
+    <div class='container-my-name' style="position:absolute; bottom:250px;"><span class='my-name'>Построить имя</span></div>
+
+    <div id="area" class="area">
+      <div id="tree" class="tree">
+        <img class="tree-img" src="images/tree.png" alt="Photo">
+      </div>
+    </div>
+
+    <a href="index.html" >Домой</a>
+
+	</body>
+</html>
+
